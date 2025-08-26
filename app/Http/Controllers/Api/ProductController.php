@@ -16,6 +16,11 @@
 				$query->where('title', 'like', '%' . $request->get('search') . '%');
 			}
 
-			return response()->json($query->get());
+			$products = $query->get()->map(function ($product) {
+				$product->image = asset($product->image);
+				return $product;
+			});
+
+			return response()->json($products);
 		}
 	}
